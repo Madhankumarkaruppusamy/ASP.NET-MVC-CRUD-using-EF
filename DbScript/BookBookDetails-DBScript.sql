@@ -1,0 +1,40 @@
+USE [master]
+GO
+/****** Object:  Table [dbo].[BookDetails]    Script Date: 28-02-2024 12:21:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BookDetails](
+	[BookDetailId] [int] IDENTITY(1,1) NOT NULL,
+	[Publisher] [nvarchar](max) NOT NULL,
+	[Genre] [nvarchar](max) NOT NULL,
+	[Description] [nvarchar](max) NOT NULL,
+	[BookId] [int] NOT NULL,
+ CONSTRAINT [PK_BookDetails] PRIMARY KEY CLUSTERED 
+(
+	[BookDetailId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Books]    Script Date: 28-02-2024 12:21:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Books](
+	[BookId] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](max) NOT NULL,
+	[Author] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_Books] PRIMARY KEY CLUSTERED 
+(
+	[BookId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[BookDetails]  WITH CHECK ADD  CONSTRAINT [FK_BookDetails_Books_BookId] FOREIGN KEY([BookId])
+REFERENCES [dbo].[Books] ([BookId])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[BookDetails] CHECK CONSTRAINT [FK_BookDetails_Books_BookId]
+GO

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Models.Book>
+
+@{ 
+    ViewData["Title"] = "View";
+}
+@section scripts
+{
+    <script>$(document).ready(function () {
+
+        $('.Delete').click(function (e) {
+
+            var ID = $(this).attr("data-id");
+            var Name = $(this).attr("data-name");
+
+
+            debugger;
+            if (confirm(`Are you sure you want to delete this Id = ${ID} with Name= ${Name}?`)) {
+                var post = {
+                    "id": ID
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/BookStore/Delete",
+                    data: post,
+                    success: function (data)
+                    {
+
+                         alert(`Successfully Deleted Id:${ID}`);
+                        window.location.href = "/bookStore/index";
+
+                    }
+                });
+            }
+            else {
+                window.location.href = "/bookStore/index";
+            }
+
+        });
+
+
+    });</script> 
+}
+
+<h1>Books in Store</h1>
+
+<p>
+    <a asp-action="Create">Create New Book</a>
+</p>
+<table class="table">
+    <thead>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    <a asp-action="Create" asp-route-id="@item.BookId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
+                    <a href="" class="Delete" data-name="@item.Title" data-id="@item.BookId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
